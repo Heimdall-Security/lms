@@ -35,12 +35,12 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Tar Dist Files
-        run: tar -czvf admin-portal.tar.gz dist/administration-portal/browser
+        run: tar -czvf lms.tar.gz dist/lms/browser
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: admin-portal.tar.gz
-          path: admin-portal.tar.gz
+          name: lms.tar.gz
+          path: lms.tar.gz
   docker-build:
     runs-on: ubuntu-latest
     needs:
@@ -52,9 +52,9 @@ jobs:
         uses: actions/download-artifact@v4
         id: download-artifact
         with:
-          name: admin-portal.tar.gz
+          name: lms.tar.gz
       - name: Extract Artifacts
-        run: tar -xzvf admin-portal.tar.gz
+        run: tar -xzvf lms.tar.gz
       - name: Stat Dir
         run: ls -R
       - name: Login to Docker Hub
@@ -73,7 +73,7 @@ jobs:
         id: docker-metadata-action
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/heimdall-security/admin-portal
+          images: ghcr.io/heimdall-security/lms
           tags: |
             type=ref,event=branch
             type=ref,event=pr
